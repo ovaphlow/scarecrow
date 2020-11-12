@@ -8,13 +8,14 @@
     "prettier": "^2.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "./node_modules/.bin/eslint src/**/*.js --ext .js,.jsx",
+    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx",
     "format": "./node_modules/.bin/prettier --write src"
   },
   "eslintConfig": {
