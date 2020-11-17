@@ -16,8 +16,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx",
-    "format": "./node_modules/.bin/prettier --write src"
+    "lint": "eslint src --ext .js,.jsx",
+    "format": "prettier src --write"
   },
   "eslintConfig": {
     "extends": [
