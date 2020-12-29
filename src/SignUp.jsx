@@ -1,6 +1,7 @@
+import md5 from 'blueimp-md5';
 import React from 'react';
 
-import reducer from './reducer';
+import { reducer } from './miscellaneous';
 
 const initial_state = {
   username: '',
@@ -10,7 +11,7 @@ const initial_state = {
 
 export default function SignUp() {
   const [state, dispatch] = React.useReducer(reducer, initial_state);
-  const title = React.useRef();
+  const [title, setTitle] = React.useState('');
 
   const handleSignUp = () => {
     if (!state.username || !state.password || !state.password1) {
@@ -25,14 +26,19 @@ export default function SignUp() {
       .fetch('/api/sign-up', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(state),
+        body: JSON.stringify({
+          username: state.username,
+          password: md5(state.password),
+        }),
       })
       .then((response) => {
         if (response.status === 200) {
+          window.alert('注册成功，即将前往登录页面。');
           window.location = '/sign-in';
+        } else if (response.status === 409) {
+          window.alert('用户已存在');
         } else {
           window.alert('服务器错误');
-          return;
         }
       });
   };
@@ -42,14 +48,14 @@ export default function SignUp() {
       .fetch('/api/info')
       .then((response) => response.json())
       .then((data) => {
-        title.current.innerText = data.title;
+        setTitle(data.title);
       });
   }, []);
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <header className="container-xl">
-        <h1 ref={title}>&nbsp;</h1>
+        <h1>{title}</h1>
         <hr />
       </header>
 
@@ -67,7 +73,10 @@ export default function SignUp() {
                 value={state.username}
                 className="form-control"
                 onChange={(event) =>
-                  dispatch({ type: 'username', payload: event.target.value })
+                  dispatch({
+                    type: 'set',
+                    payload: { key: 'username', value: event.target.value },
+                  })
                 }
               />
             </div>
@@ -79,7 +88,10 @@ export default function SignUp() {
                 value={state.password}
                 className="form-control"
                 onChange={(event) =>
-                  dispatch({ type: 'password', payload: event.target.value })
+                  dispatch({
+                    type: 'set',
+                    payload: { key: 'password', value: event.target.value },
+                  })
                 }
               />
             </div>
@@ -91,7 +103,10 @@ export default function SignUp() {
                 value={state.password1}
                 className="form-control"
                 onChange={(event) =>
-                  dispatch({ type: 'password1', payload: event.target.value })
+                  dispatch({
+                    type: 'set',
+                    payload: { key: 'password1', value: event.target.value },
+                  })
                 }
               />
             </div>
