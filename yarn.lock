@@ -8869,7 +8869,7 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
-react-dev-utils@^11.0.0:
+react-dev-utils@^11.0.1:
   version "11.0.1"
   resolved "https://registry.npm.taobao.org/react-dev-utils/download/react-dev-utils-11.0.1.tgz#30106c2055acfd6b047d2dc478a85c356e66fe45"
   integrity sha1-MBBsIFWs/WsEfS3EeKhcNW5m/kU=
@@ -8957,10 +8957,10 @@ react-router@5.2.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-scripts@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/react-scripts/download/react-scripts-4.0.0.tgz#36f3d84ffff708ac0618fd61e71eaaea11c26417"
-  integrity sha1-NvPYT//3CKwGGP1h5x6q6hHCZBc=
+react-scripts@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/react-scripts/download/react-scripts-4.0.1.tgz#34974c0f4cfdf1655906c95df6a04d80db8b88f0"
+  integrity sha1-NJdMD0z98WVZBsld9qBNgNuLiPA=
   dependencies:
     "@babel/core" "7.12.3"
     "@pmmmwh/react-refresh-webpack-plugin" "0.4.2"
@@ -9004,8 +9004,9 @@ react-scripts@4.0.0:
     postcss-normalize "8.0.1"
     postcss-preset-env "6.7.0"
     postcss-safe-parser "5.0.2"
+    prompts "2.4.0"
     react-app-polyfill "^2.0.0"
-    react-dev-utils "^11.0.0"
+    react-dev-utils "^11.0.1"
     react-refresh "^0.8.3"
     resolve "1.18.1"
     resolve-url-loader "^3.1.2"
@@ -10903,10 +10904,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-vitals@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.npm.taobao.org/web-vitals/download/web-vitals-0.2.4.tgz#ec3df43c834a207fd7cdefd732b2987896e08511"
-  integrity sha1-7D30PINKIH/Xze/XMrKYeJbghRE=
+web-vitals@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/web-vitals/download/web-vitals-1.0.1.tgz#025a7ffd9d8f5e4a030e3aee6061dcb38a4b6654"
+  integrity sha1-Alp//Z2PXkoDDjruYGHcs4pLZlQ=
 
 webidl-conversions@^5.0.0:
   version "5.0.0"
