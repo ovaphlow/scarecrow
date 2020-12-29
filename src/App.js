@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import SignUp from './SignUp';
 import SignIn from './SignIn';
+import SettingList from './SettingList';
 
 export default function App() {
   return (
@@ -13,6 +14,10 @@ export default function App() {
         </Route>
         <Route path="/sign-in">
           <SignIn />
+        </Route>
+
+        <Route path="/setting">
+          <SettingList />
         </Route>
       </Switch>
     </Router>
