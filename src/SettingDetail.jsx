@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Navbar from './Navbar';
+import Footer from './Footer';
 import { reducer } from './miscellaneous';
 
 const initial_state = {
@@ -212,7 +213,7 @@ export default function SettingDetail({ option }) {
         </div>
       </main>
 
-      <footer>123fe</footer>
+      <Footer />
     </div>
   );
 }

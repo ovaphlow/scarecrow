@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import Navbar from './Navbar';
+import Footer from './Footer';
 import { reducer } from './miscellaneous';
 
 const initial_filter = {
@@ -163,7 +164,7 @@ export default function SettingList() {
         </div>
       </main>
 
-      <footer>123fe</footer>
+      <Footer />
     </div>
   );
 }
