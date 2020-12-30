@@ -1,10 +1,13 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Navbar from './Navbar';
 import { reducer } from './miscellaneous';
 
 const initial_state = {
+  origin_id: 0,
+  parent_id: 0,
   category: '',
   name: '',
   value: '',
@@ -12,8 +15,47 @@ const initial_state = {
 };
 
 export default function SettingDetail({ option }) {
+  const { id } = useParams();
   const [category_list, setCategoryList] = React.useState([]);
   const [state, dispatch] = React.useReducer(reducer, initial_state);
+
+  const handleSave = () => {
+    window
+      .fetch('/api/setting', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(state),
+      })
+      .then((response) => {
+        if (response.status === 200) window.history.go(-1);
+        else window.alert('服务器错误');
+      });
+  };
+
+  const handleUpdate = () => {
+    window
+      .fetch(`/api/setting/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(state),
+      })
+      .then((response) => {
+        if (response.status === 200) window.history.go(-1);
+        else window.alert('服务器错误');
+      });
+  };
+
+  const handleRemove = () => {
+    if (!window.confirm('确定要删除当前数据？')) return;
+    window
+      .fetch(`/api/setting/${id}`, {
+        method: 'DELETE',
+      })
+      .then((response) => {
+        if (response.status === 200) window.history.go(-1);
+        else window.alert('服务器错误');
+      });
+  };
 
   React.useEffect(() => {
     window
@@ -22,6 +64,32 @@ export default function SettingDetail({ option }) {
       .then((data) => {
         setCategoryList(data);
       });
+  }, []);
+
+  React.useEffect(() => {
+    if (option === '编辑') {
+      window
+        .fetch(`/api/setting/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch({
+            type: 'set',
+            payload: { key: 'category', value: data.category },
+          });
+          dispatch({
+            type: 'set',
+            payload: { key: 'name', value: data.name },
+          });
+          dispatch({
+            type: 'set',
+            payload: { key: 'value', value: data.value },
+          });
+          dispatch({
+            type: 'set',
+            payload: { key: 'remark', value: data.remark },
+          });
+        });
+    }
   }, []);
 
   return (
@@ -121,9 +189,25 @@ export default function SettingDetail({ option }) {
               返回
             </button>
 
-            <button type="button" className="btn btn-primary">
-              保存
-            </button>
+            <div className="btn-group">
+              {option === '编辑' && (
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={handleRemove}
+                >
+                  删除
+                </button>
+              )}
+
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={option === '编辑' ? handleUpdate : handleSave}
+              >
+                保存
+              </button>
+            </div>
           </div>
         </div>
       </main>

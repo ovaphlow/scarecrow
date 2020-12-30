@@ -21,6 +21,9 @@ export default function App() {
         <Route path="/setting/append">
           <SettingDetail option="新增" />
         </Route>
+        <Route path="/setting/:id">
+          <SettingDetail option="编辑" />
+        </Route>
         <Route path="/setting">
           <SettingList />
         </Route>
