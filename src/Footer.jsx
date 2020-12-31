@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 export default function Footer() {
   return (
@@ -13,13 +14,14 @@ export default function Footer() {
           rel="noreferrer"
           className="text-decoration-none text-light"
         >
+          <FontAwesomeIcon icon={faGithub} fixedWidth />
           ovaphlow/sentinel
         </a>
       </strong>
 
       <strong>
-        <FontAwesomeIcon icon={faEdit} fixedWidth />
-        by{' '}
+        <FontAwesomeIcon icon={faCode} fixedWidth />
+        &nbsp; by{' '}
         <a
           href="https://github.com/ovaphlow/scarecrow"
           target="_blank"
