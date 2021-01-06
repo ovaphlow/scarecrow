@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,19 +10,29 @@ import { reducer } from './miscellaneous';
 const initial_filter = {
   category: '',
   keyword: '',
+  page: 0,
 };
 
 export default function SettingList() {
+  const [filter, dispatch] = React.useReducer(reducer, initial_filter);
+  const next_page = React.useRef(null);
   const [list, setList] = React.useState([]);
   const [category_list, setCategoryList] = React.useState([]);
-  const [filter, dispatch] = React.useReducer(reducer, initial_filter);
+  const [eof, setEof] = React.useState(false);
+  const history = useHistory();
 
   const handleFilter = () => {
+    next_page.current.style.display = 'none';
     setList([]);
     window
-      .fetch(
-        `/api/setting/list?category=filter&filter_category=${filter.category}&filter_keyword=${filter.keyword}`,
-      )
+      .fetch(`/api/setting/list?category=filter`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          category: filter.category,
+          keyword: filter.keyword,
+        }),
+      })
       .then((response) => {
         if (response.status === 200) return response.json();
         else window.alert('服务器错误');
@@ -31,23 +42,55 @@ export default function SettingList() {
       });
   };
 
-  React.useEffect(() => {
-    window
-      .fetch('/api/setting/list')
-      .then((response) => response.json())
-      .then((data) => {
-        setList(data);
-      });
-  }, []);
+  const handleNextPage = () => {
+    history.push(`?page=${filter.page + 1}`);
+    dispatch({ type: 'set', payload: { key: 'page', value: filter.page + 1 } });
+  };
 
   React.useEffect(() => {
     window
-      .fetch('/api/setting/list?category=list-group')
+      .fetch('/api/setting/list?category=list-group', {
+        method: 'PUT',
+      })
       .then((response) => response.json())
       .then((data) => {
         setCategoryList(data);
       });
   }, []);
+
+  React.useEffect(() => {
+    history.replace(`?page=0`);
+  }, []);
+
+  React.useEffect(() => {
+    if (eof) {
+      dispatch({
+        type: 'set',
+        payload: { key: 'page', value: filter.page - 1 },
+      });
+      setEof(false);
+      return;
+    }
+    next_page.current.style.display = 'none';
+    window
+      .fetch('/api/setting/list', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ page: filter.page }),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length === 0) {
+          window.alert('没有更多的数据了');
+          history.replace(`?page=${filter.page - 1}`);
+          setEof(true);
+          next_page.current.style.display = 'none';
+        } else {
+          setList(list.concat(data));
+          next_page.current.style.display = 'block';
+        }
+      });
+  }, [filter.page]);
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -61,7 +104,12 @@ export default function SettingList() {
         <ul className="nav nav-tabs justify-content-end">
           <li className="nav-item">
             <a className="nav-link active" href="/setting">
-              系统设置
+              基础数据
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/staff">
+              系统用户
             </a>
           </li>
         </ul>
@@ -107,13 +155,23 @@ export default function SettingList() {
             />
           </div>
 
-          <div className="col-auto">
+          <div className="col-auto btn-group">
             <button
               type="button"
               className="btn btn-secondary"
               onClick={handleFilter}
             >
               查询
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={() => {
+                window.location = '/setting/';
+              }}
+            >
+              重置
             </button>
           </div>
         </form>
@@ -161,6 +219,16 @@ export default function SettingList() {
               ))}
             </tbody>
           </table>
+
+          <button
+            type="button"
+            className="btn btn-outline-info"
+            style={{ display: 'none' }}
+            ref={next_page}
+            onClick={handleNextPage}
+          >
+            next page
+          </button>
         </div>
       </main>
 

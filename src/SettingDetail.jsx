@@ -60,7 +60,9 @@ export default function SettingDetail({ option }) {
 
   React.useEffect(() => {
     window
-      .fetch('/api/setting/list?category=list-group')
+      .fetch('/api/setting/list?category=list-group', {
+        method: 'PUT',
+      })
       .then((response) => response.json())
       .then((data) => {
         setCategoryList(data);
@@ -105,7 +107,12 @@ export default function SettingDetail({ option }) {
         <ul className="nav nav-tabs justify-content-end">
           <li className="nav-item">
             <a className="nav-link active" href="/setting">
-              系统设置
+              基础数据
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/staff">
+              系统用户
             </a>
           </li>
         </ul>
@@ -185,7 +192,7 @@ export default function SettingDetail({ option }) {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => window.history.go(-1)}
+              onClick={() => window.history.back()}
             >
               返回
             </button>
